@@ -1,0 +1,67 @@
+<html>
+
+<body>
+
+<script type="text/javascript">
+	function pascalTriangle(degree){
+
+	var pascalTriangleObjectCollection=[];
+	var results = generateNumbers(degree,pascalTriangleObjectCollection);
+	console.log(pascalTriangleObjectCollection);
+}
+
+function generateNumbers(degree,triangleObjectCollection){
+	var indexGenStart = degree-(degree-1);
+	var indexGenStop = degree;
+	var numbersToGenerateQuant = (degree-2);
+	var numberToPush = -99;
+
+	var triangleRowObject = {};
+	console.log("Back in generator");
+	//use recursion
+	if(degree>0){
+		if(degree===1){
+		triangleRowObject['degree']=degree;
+		triangleRowObject[degree] = '1';
+		triangleObjectCollection.unshift(triangleRowObject);
+		generateNumbers((degree-1),triangleObjectCollection);
+		}else{
+			if(numbersToGenerateQuant===0){
+				triangleRowObject['degree']=degree;
+				triangleRowObject[indexGenStart] = '1';
+				triangleRowObject[indexGenStop] = '1';
+				triangleObjectCollection.unshift(triangleRowObject);
+				generateNumbers((degree-1),triangleObjectCollection);
+			}
+			if(numbersToGenerateQuant>0){
+				//dry this up
+				triangleRowObject['degree']=degree;
+				triangleRowObject[indexGenStart.toString()] = '1';
+				triangleRowObject[indexGenStop.toString()] = '1';
+				console.log("triangleRowObject[0] is: " + triangleRowObject['1']);
+				console.log("triangleObjectCollection is: " + triangleObjectCollection);
+				console.log("Length of triangleObjectCollection is: "+triangleObjectCollection.length);
+				console.log("previousRowObject is: "+triangleObjectCollection[triangleObjectCollection.length]);
+				var previousRowObject = triangleObjectCollection[triangleObjectCollection.length];
+				var previousRowNumbers = Object.values(previousRowObject);
+
+				for(i=(indexGenStart+1);i<indexGenStop;i++){
+					triangleRowObject[i]=previousRowNumbers[i-2]+previousRowNumbers[i-1];
+				}
+				triangleObjectCollection.push(triangleObject);
+				generateNumbers((degree-1),triangleObjectCollection);
+			}
+		}
+	}else{
+		console.log( "Triangle object colletion:"+triangleObjectCollection);
+	}
+}
+
+// function createTriangleRowBoundary(degree,startIndex,stopIndex,triangleObjectCollection){
+
+// }
+
+</script>
+
+</body>
+</html>
