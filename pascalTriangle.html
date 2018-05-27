@@ -6,61 +6,135 @@
 	function pascalTriangle(degree){
 
 	var pascalTriangleObjectCollection=[];
-	var results = generateNumbers(degree,pascalTriangleObjectCollection);
-	console.log(pascalTriangleObjectCollection);
+	// var results = generateNumbers(degree,pascalTriangleObjectCollection);
+	var flatArray = [];
+	var results = generateNumbers((degree-(degree-1)),pascalTriangleObjectCollection,degree,flatArray);
+	var flatArray = generateFlatArray(pascalTriangleObjectCollection);
+	// console.log(pascalTriangleObjectCollection);
+	console.log(flatArray);
 }
 
-function generateNumbers(degree,triangleObjectCollection){
-	var indexGenStart = degree-(degree-1);
-	var indexGenStop = degree;
-	var numbersToGenerateQuant = (degree-2);
-	var numberToPush = -99;
+// function generateNumbers(degree,triangleObjectCollection){
+// 	var indexGenStart = degree-(degree-1);
+// 	var indexGenStop = degree;
+// 	var numbersToGenerateQuant = (degree-2);
+// 	var numberToPush = -99;
 
-	var triangleRowObject = {};
-	console.log("Back in generator");
-	//use recursion
-	if(degree>0){
-		if(degree===1){
-		triangleRowObject['degree']=degree;
-		triangleRowObject[degree] = '1';
-		triangleObjectCollection.unshift(triangleRowObject);
-		generateNumbers((degree-1),triangleObjectCollection);
-		}else{
-			if(numbersToGenerateQuant===0){
-				triangleRowObject['degree']=degree;
-				triangleRowObject[indexGenStart] = '1';
-				triangleRowObject[indexGenStop] = '1';
-				triangleObjectCollection.unshift(triangleRowObject);
-				generateNumbers((degree-1),triangleObjectCollection);
-			}
-			if(numbersToGenerateQuant>0){
-				//dry this up
-				triangleRowObject['degree']=degree;
-				triangleRowObject[indexGenStart.toString()] = '1';
-				triangleRowObject[indexGenStop.toString()] = '1';
-				console.log("triangleRowObject[0] is: " + triangleRowObject['1']);
-				console.log("triangleObjectCollection is: " + triangleObjectCollection);
-				console.log("Length of triangleObjectCollection is: "+triangleObjectCollection.length);
-				console.log("previousRowObject is: "+triangleObjectCollection[triangleObjectCollection.length]);
-				var previousRowObject = triangleObjectCollection[triangleObjectCollection.length];
-				var previousRowNumbers = Object.values(previousRowObject);
+// 	var triangleRowObject = {};
+// 	console.log("Back in generator");
+// 	//use recursion
+// 	if(degree>0){
+// 		if(degree>=1){
+// 		triangleRowObject['degree']=degree;
+// 		triangleRowObject[degree] = '1';
+// 		triangleObjectCollection.unshift(triangleRowObject);
+// 		generateNumbers((degree-1),triangleObjectCollection);
+// 		// console.log("triangleRowObject[0] is: " + triangleRowObject['1']);
+// 		// 		console.log("triangleObjectCollection is: " + triangleObjectCollection);
+// 		// 		console.log("Length of triangleObjectCollection is: "+triangleObjectCollection.length);
+// 		// 		console.log("previousRowObject is: "+triangleObjectCollection[triangleObjectCollection.length]);
+// 		}else{
+// 			if(numbersToGenerateQuant===0){
+// 				triangleRowObject['degree']=degree;
+// 				triangleRowObject[indexGenStart] = '1';
+// 				triangleRowObject[indexGenStop] = '1';
+// 				triangleObjectCollection.unshift(triangleRowObject);
+// 				// console.log("triangleRowObject[0] is: " + triangleRowObject['1']);
+// 				// console.log("triangleObjectCollection is: " + triangleObjectCollection);
+// 				// console.log("Length of triangleObjectCollection is: "+triangleObjectCollection.length);
+// 				// console.log("previousRowObject is: "+triangleObjectCollection[triangleObjectCollection.length]);
+// 				generateNumbers((degree-1),triangleObjectCollection);
+// 			}
+// 			if(numbersToGenerateQuant>0){
+// 				//dry this up
+// 				triangleRowObject['degree']=degree;
+// 				triangleRowObject[indexGenStart.toString()] = '1';
+// 				triangleRowObject[indexGenStop.toString()] = '1';
+// 				//console.log("triangleRowObject[0] is: " + triangleRowObject[1]);
+				
+// 				//console.log("triangleObjectCollection is: " + console.dir(triangleObjectCollection));
+// 				//console.log("Length of triangleObjectCollection is: "+triangleObjectCollection.length);
+// 				//console.log("previousRowObject is: "+triangleObjectCollection[triangleObjectCollection.length]);
+// 				var previousRowObject = triangleObjectCollection[triangleObjectCollection.length];
+// 				var previousRowNumbers = Object.values(previousRowObject);
 
-				for(i=(indexGenStart+1);i<indexGenStop;i++){
-					triangleRowObject[i]=previousRowNumbers[i-2]+previousRowNumbers[i-1];
-				}
-				triangleObjectCollection.push(triangleObject);
-				generateNumbers((degree-1),triangleObjectCollection);
-			}
-		}
-	}else{
-		console.log( "Triangle object colletion:"+triangleObjectCollection);
-	}
-}
-
-// function createTriangleRowBoundary(degree,startIndex,stopIndex,triangleObjectCollection){
-
+// 				for(i=(indexGenStart+1);i<indexGenStop;i++){
+// 					triangleRowObject[i]=previousRowNumbers[i-2]+previousRowNumbers[i-1];
+// 				}
+// 				triangleObjectCollection.push(triangleObject);
+// 				generateNumbers((degree-1),triangleObjectCollection);
+// 			}
+// 		}
+// 	}else{
+// 		console.log( "Triangle object colletion:"+triangleObjectCollection);
+// 	}
 // }
 
+function generateNumbers(currentDegree,triangleObjectCollection,degreeDepth,flatArray){
+	var numbersToGenerateQuant = (currentDegree-2);
+	var generateCount = 0;
+	var triangleRowObject = {};
+
+	//triangleRowObject['degree'] = currentDegree;
+	//console.log("Current degree is: " + currentDegree);
+	//console.log("Numbers to generate is: " + numbersToGenerateQuant);
+	if(numbersToGenerateQuant<0){
+		triangleRowObject['1']=1;
+		//flatArray.push(1);
+	}else if(numbersToGenerateQuant===0){
+		triangleRowObject['1']=1;
+		triangleRowObject['2']=1;
+		//flatArray.push(1);
+		//flatArray.push(1);
+	}else{
+			for(var i=1;i<=numbersToGenerateQuant+1;i++){
+			//console.log("Generate count is: " + generateCount);
+			if(generateCount===0){
+				triangleRowObject[i]=1;
+				//flatArray.push(1);
+				
+			}else if(generateCount>0 && generateCount<=currentDegree-1){
+				if(triangleObjectCollection.length!==undefined){
+					var previousRowObject = triangleObjectCollection[triangleObjectCollection.length-1];
+					//console.log("Length of triangleObjectCollection is: " + triangleObjectCollection.length);
+					//console.dir(triangleObjectCollection);
+					var previousRowNumbers = [];
+					Object.keys(previousRowObject).map(function(key){
+						previousRowNumbers.push(previousRowObject[key]);
+					});
+					 triangleRowObject[i] = previousRowNumbers[i-2]+previousRowNumbers[i-1];
+					//flatArray.push(previousRowNumbers[i-2]+previousRowNumbers[i-1]);
+				}
+			}/*else if(generateCount===currentDegree-2){
+				triangleRowObject[i]=1;
+			}*/
+			generateCount++;
+		}
+	}
+		triangleRowObject[currentDegree]=1;
+		//flatArray.push(1);
+		triangleObjectCollection.push(triangleRowObject);
+		if((currentDegree+1)<=degreeDepth){
+			generateNumbers((currentDegree+1),triangleObjectCollection,degreeDepth,flatArray);
+		}
+}
+
+function generateFlatArray(triangleObjectCollection){
+	var flatArray = [];
+
+	triangleObjectCollection.forEach(function(obj){
+		// Object.values(obj).forEach(function(objValue){
+			
+		// 	flatArray.push(objValue);
+			 
+		// });
+		Object.keys(obj).map(function(key){
+			flatArray.push(obj[key]);
+		});
+	});
+
+	return(flatArray);
+}
 </script>
 
 </body>

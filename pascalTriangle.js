@@ -1,4 +1,4 @@
-function pascalTriangle(degree){
+function pascalsTriangle(degree){
 
 	var triangleObjectCollection=[];
 	generateNumbers(degree,triangleObjectCollection);
@@ -32,7 +32,10 @@ function generateNumbers(degree,triangleObjectCollection){
 			triangleRowObject[indexGenStart] = '1';
 			triangleRowObject[indexGenStop] = '1';
 			var previousRowObject = triangleObjectCollection[triangleObjectCollection.length];
-			var previousRowNumbers = previousRowObject.values();
+			var previousRowNumbers = [];
+					Object.keys(previousRowObject).map(function(key){
+						previousRowNumbers.push(previousRowObject[key]);
+					});
 
 			for(i=(indexGenStart+1);i<indexGenStop;i++){
 				triangleRowObject[i]=previousRowNumbers[i-2]+previousRowNumbers[i-1];
