@@ -12,7 +12,72 @@ const solveSudoku = (board, n) => {
     const rows = getRows(board, n)
     const cols = getCols(board, n)
     const groups = getGroups(board, n)
+    const gridFlags = getGridFlags(board)
+    const currentBoard = board
+    let colIndex = 0
+    let rowIndex = 0
+    let groupIndex = 0
+    let groupWidth = Math.sqrt(n)
+    let cellPos = [0,0]
+    let boardWidth = n-1
+    let colPos = 0
+
+    console.dir(rows)
+    console.dir(cols)
+    console.dir(groups)
+    console.dir(gridFlags)
     debugger
+    for(let j = 0; j < board.length - 1; j++) {
+        //update cell coordinates and column position.
+        //If column position is greater than the board with
+        //increase the y coordinate position and reset the 
+        //x coordinate position and reset the colPos
+        //Else, increase the colPos and the x coordinate of the
+        (colPos > boardWidth) ? () => { colPos = 0; cellPos[1] += 1; cellPos[0] = 0 } : () => {colPos += 1; cellPos[0] +=1 }
+        let groupIndex = getCellGroup(cellPos[0], cellPos[1], groupWidth)
+        let validDigits = getValidDigits(cellPos[0], cellPos[1], )
+        
+    }
+    //identify any non-zero cell as a given value and flag as unchangeable
+    //start at group cell 0
+    //get valid digits for r0 c0 g0
+    //move to cell 1
+    //get valid digits for r0 c1 g0
+    //move to cell 2
+    //get valid digits for r0 c2 g0
+    //move to cell 3
+}
+
+const getCellGroup = (x, y, width) => {
+    //x coord is Math.floor(x/width % width)
+    //y coord is Math.floor(y/width % width)
+    //group coord
+    let xCoord = Math.floor(x/width % width)
+    let yCoord = Math.floor(y/width % width)
+    let groupCoords = [xCoord, yCoord]
+
+    const groupCoordMap = {
+        0: [0,0],
+        1: [1,0],
+        2: [2,0],
+        3: [0,1],
+        4: [1,1],
+        5: [2,1],
+        6: [0,2],
+        7: [1,2],
+        8: [2,2]
+    }
+
+    Object.keys(groupCoordMap).filter((val,index) => (val === groupCoords) ? groupCoordMap[index] : null)
+}
+
+const getValidDigits = (row, col, group) => {
+
+}
+
+const getGridFlags = board => {
+    let flags = board.map(cell => cell !== 0 ? 1 : 0 )
+    return flags
 }
 
 const getRows = (board, n) => {
@@ -73,7 +138,6 @@ const getGroups = (board, n) => {
         }
         //iterate through the width of each group (h)
         for(let r = 0; r < h; r++) {
-            // debugger
             let q = (h * subX) + (heightOffset * (n*2))
             let y = q + n
             let z = q + (n * 2)
