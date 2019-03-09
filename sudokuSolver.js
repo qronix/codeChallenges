@@ -26,6 +26,7 @@ const solveSudoku = (board, n) => {
     console.dir(cols)
     console.dir(groups)
     console.dir(gridFlags)
+    getCellGroup(5,2,3)
     debugger
     for(let j = 0; j < board.length - 1; j++) {
         //update cell coordinates and column position.
@@ -68,7 +69,10 @@ const getCellGroup = (x, y, width) => {
         8: [2,2]
     }
 
-    Object.keys(groupCoordMap).filter((val,index) => (val === groupCoords) ? groupCoordMap[index] : null)
+    // Having fun
+    //Gets the index of the groupCoordMap which matches groupCoords
+    const groupIndex = Object.keys(groupCoordMap).map((key)=>groupCoordMap[key].every((item,index)=>item===groupCoords[index])).map((member,index)=>member === true ? index : null).sort()[0]
+    return groupIndex
 }
 
 const getValidDigits = (row, col, group) => {
